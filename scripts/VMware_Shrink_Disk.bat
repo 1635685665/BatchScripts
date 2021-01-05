@@ -12,10 +12,13 @@ exit /b
 ::
 ::在安装了VMware Tools的虚拟机内压缩虚拟机磁盘
 ::
-cd /d "%ProgramFiles%\VMware\VMware Tools"
-for /f %%i in ('VMwareToolboxCmd disk list') do (
+set vmcmd=%ProgramFiles%\VMware\VMware Tools\VMwareToolboxCmd.exe
+if exist "%vmcmd%" for /f %%i in ('"%vmcmd%" disk list') do (
 	echo 目标位置：%%i
-	VMwareToolboxCmd disk shrink %%i
+	"%vmcmd%" disk shrink %%i
+) else (
+	echo 未安装VMware Tools，按任意键退出。。。
+	pause > nul
 )
 :Exit
 exit /b
